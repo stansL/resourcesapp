@@ -1,0 +1,18 @@
+[
+  {
+    "id": "resourcesapp.resourcesApp",
+    "description": "App for managing Downloadable Resources",
+    "order": 100,
+    "extensions": [
+      {
+        "id": "resourcesapp.resourcesAppHomepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "Downloads",
+        "url": "resourcesapp/main.page",
+        "icon": "icon-download-alt",        // see the uicommons style guide icons
+        "requiredPrivilege": "Access Billing"
+      }
+    ]
+  }
+]
