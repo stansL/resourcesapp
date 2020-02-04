@@ -11,39 +11,15 @@
     var confirmdialog;
 
     jq(document).ready(function () {
-        confirmdialog = emr.setupConfirmationDialog({
-            dialogOpts: {
-                overlayClose: false,
-                close: true
-            },
-            selector: '#confirmDialog',
-            actions: {
-                confirm: function () {
-                    confirmdialog.close();
-                    window.location.href = '${ui.pageLink("patientqueueapp", "opdQueue", [app: "patientdashboardapp.opdqueue"])}';
-                },
-                cancel: function () {
-                    confirmdialog.close();
-                }
-            }
-        });
-
-        jq(".dashboard-tabs").tabs();
-        jq(".cancelButton").on("click", function (e) {
-            e.preventDefault();
-            confirmdialog.show();
-
-        });
-
         var stuff = ${files.collect { it.toJson() }};
 
         documentsTable('#docsTable', stuff);
         jq('.toLink').each(function () {
             var t = jq(this);
             t.on("click", function () {
-                // alert(t.data('title'));
+                console.log(t.data('title'));
                 var d = t.data('title');
-                window.location.href = '/openmrs/moduleServlet/resourcesapp/downloads';
+                window.location.href = '/openmrs/moduleServlet/resourcesapp/downloads?fileName=' + d;
 
             });
         });
