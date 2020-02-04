@@ -5,6 +5,7 @@
     ui.includeJavascript("patientdashboardapp", "jq.slimscroll.js")
 
     ui.includeCss("patientdashboardapp", "patientdashboardapp.css");
+    def d = "test";
 %>
 <script>
     var confirmdialog;
@@ -41,10 +42,8 @@
             var t = jq(this);
             t.on("click", function () {
                 // alert(t.data('title'));
-                // console.log(t.data('title'));
-                console.log("About to Post");
-                emr.fragmentActionLink("resourcesapp", "resources","loadStuff", { "fileName": t.data('title')});
-                console.log("just posted ......");
+                var d = t.data('title');
+                window.location.href = '/openmrs/moduleServlet/resourcesapp/downloads';
 
             });
         });
@@ -67,6 +66,7 @@
             // Create anchor element.
             var a = document.createElement('a');
             a.classList.add("toLink");
+            // a.target="_blank"
 
             a.setAttribute('data-title', tested);
 
