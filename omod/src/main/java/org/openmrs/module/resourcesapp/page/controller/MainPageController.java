@@ -39,6 +39,9 @@ public class MainPageController {
         List<SimpleObject> objects = new ArrayList<SimpleObject>();
         for (File f : resourcesFile.listFiles()) {
             String[] nameParts = f.getName().split("_");
+            for (int i = 0; i < nameParts.length; i++) {
+                System.out.println(nameParts[i]);
+            }
 
             SimpleObject simpleObject = SimpleObject.create("displayName", nameParts[0],
                     "shortDescription", nameParts[1],

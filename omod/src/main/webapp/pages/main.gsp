@@ -1,12 +1,13 @@
-<%
+﻿<%
     ui.decorateWith("appui", "standardEmrPage", [title: "Medical Resources"]);
-
     ui.includeJavascript("patientdashboardapp", "jq.print.js")
     ui.includeJavascript("patientdashboardapp", "jq.slimscroll.js")
 
     ui.includeCss("patientdashboardapp", "patientdashboardapp.css");
     def d = "test";
+
 %>
+
 <script>
     var confirmdialog;
 
@@ -30,12 +31,14 @@
 
     function documentsTable(selector, data) {
         for (var i = 0; i < data.length; i++) {
+            console.log(data);
 
-            var tested = data[i].displayName;
+            var disName = data[i].displayName;
+            var desc = data[i].shortDescription;
             var row = jq('<tr/>');
             row.append(jq('<td/>').html((i + 1)));
             var cstyle = data[i].icon + " small";
-            row.append(jq('<td/>').html('<i class="' + cstyle + '"></i><strong>' + tested + '</strong><br/>' + data[i].shortDescription));
+            row.append(jq('<td/>').html('<i class="' + cstyle + '"></i><strong>' + disName + '</strong><br/>' + data[i].shortDescription));
             row.append(jq('<td/>').html(data[i].version));
 
 
@@ -44,7 +47,7 @@
             a.classList.add("toLink");
             // a.target="_blank"
 
-            a.setAttribute('data-title', tested);
+            a.setAttribute('data-title', disName);
 
             // Create the text node for anchor element.
             var link = document.createElement('i');
@@ -299,22 +302,18 @@ form label, .form label {
             </li>
             <li>
                 <i class="icon-chevron-right link"></i>
-                <a href="${ui.pageLink('patientqueueapp', 'opdQueue', [app: 'patientdashboardapp.opdqueue'])}">Medical Resources</a>
+                <a href="${ui.pageLink('patientqueueapp', 'opdQueue', [app: 'patientdashboardapp.opdqueue'])}">${ui.message("resourcesapp.resource.medicalResource")}</a>
             </li>
 
         </ul>
-    </div>
-
-    <div>
-        Medical Documents <br/>
     </div>
     <table id="docsTable">
         <thead>
         <tr>
             <th>#</th>
-            <th>File</th>
-            <th>Version</th>
-            <th>Actions</th>
+            <th>${ui.message("resourcesapp.resource.file")}</th>
+            <th>${ui.message("resourcesapp.resource.version")}</th>
+            <th>${ui.message("resourcesapp.resource.actions")}</th>
         </tr>
         </thead>
         <tbody>
@@ -323,5 +322,3 @@ form label, .form label {
     </table>
 
 </div>
-
-

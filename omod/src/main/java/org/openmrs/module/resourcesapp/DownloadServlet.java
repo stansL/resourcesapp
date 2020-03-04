@@ -1,5 +1,6 @@
 package org.openmrs.module.resourcesapp;
 
+import org.apache.commons.io.FilenameUtils;
 import org.openmrs.util.OpenmrsUtil;
 
 import javax.servlet.ServletContext;
@@ -8,27 +9,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 
 public class DownloadServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-        System.out.println(request.getParameterMap());
-        Enumeration parameterNames = request.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            System.out.println(parameterNames.nextElement().toString());
-        }
         File resourcesFile = OpenmrsUtil.getDirectoryInApplicationDataDirectory("mpd");
 
-        System.out.println("=======================================");
-        String name = request.getParameter("fileName");
+        String fileName = request.getParameter("fileName");
+
         File fileToDownload = null;
 
 
 //        reads input file from an absolute path
         for (File f : resourcesFile.listFiles()) {
-            if (f.getName().startsWith(name)) {
+            if (f.getName().startsWith(fileName)) {
                 fileToDownload = f;
                 break;
             }
@@ -46,14 +44,19 @@ public class DownloadServlet extends HttpServlet {
                 // set to binary type if MIME mapping not found
                 mimeType = "application/octet-stream";
             }
-            System.out.println("MIME type: " + mimeType);
 
             // modifies response
             response.setContentType(mimeType);
             response.setContentLength((int) fileToDownload.length());
 
+
             // forces download
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileToDownload.getName() + "\"");
+            String toSend =  fileName + "."+ FilenameUtils.getExtension(fileToDownload.getName());
+
+            String fn = URLEncoder.encode(toSend, "UTF-8");
+            fn = URLDecoder.decode(fn, "ISO8859_1");
+            response.setContentType("application/msword");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + fn + "\"");
 
             // obtains response's output stream
             OutputStream outStream = response.getOutputStream();
